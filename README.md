@@ -29,31 +29,31 @@
 
 ```
         <androidx.appcompat.widget.AppCompatImageView
-			android:id="@+id/articleIma"
-			load_image="@{mainData.picUrl}"
-			load_image_circle_crop="@{true}"
-			load_image_default_img="@{@drawable/default_image}"
-			load_image_height="@{75}"
-			load_image_roundedRadius="@{12}"
-			load_image_width="@{120}"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:scaleType="centerCrop" />
+		    android:id="@+id/articleIma"
+		    load_image="@{mainData.picUrl}"
+		    load_image_circle_crop="@{true}"
+		    load_image_default_img="@{@drawable/default_image}"
+		    load_image_height="@{75}"
+		    load_image_roundedRadius="@{12}"
+		    load_image_width="@{120}"
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:scaleType="centerCrop" />
 ```
 
     activity 加载图片:
 
 ```
 		loadImage(
-			imageView = imageIcon,
-			url = medalInfo.appLogoUrl,
-			width = 56.dp,
-			height = 56.dp,
-			defaultImg = AppCompatResources.getDrawable(
-				this@CreatCenterActivity,
-				R.mipmap.ic_medal_awarded_default
-			)
-		)
+		    imageView = imageIcon,
+		    url = medalInfo.appLogoUrl,
+		    width = 56.dp,
+		    height = 56.dp,
+		    defaultImg = AppCompatResources.getDrawable(
+		        this@CreatCenterActivity,
+		        R.mipmap.ic_medal_awarded_default
+		    )
+	    )
 ```
 
     多 view 截屏:
