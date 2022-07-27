@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="mainData"
+            type="com.image.kotlin.MainActivity" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <RelativeLayout
+            android:id="@+id/rlBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnBindable"
+                viewRadius="@{10}"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="5dp"
+                android:background="@color/color_20a0da"
+                android:onClick="@{(v)->mainData.onScreenShoot(v)}"
+                android:text="@string/main_btn7" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/articleIma"
+                load_image="@{mainData.picUrl}"
+                load_image_circle_crop="@{true}"
+                load_image_default_img="@{@drawable/default_image}"
+                load_image_height="@{75}"
+                load_image_roundedRadius="@{12}"
+                load_image_width="@{120}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
+
+
+        </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

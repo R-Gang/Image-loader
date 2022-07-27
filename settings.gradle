@@ -1,0 +1,3 @@
+rootProject.name = "Image-loader"
+include ':app',
+        ':image'// image加载框架扩展
