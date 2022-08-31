@@ -29,7 +29,6 @@ android {
     }
 
     kotlinOptions {
-        useIR = true
         jvmTarget = JavaVersion.VERSION_11
         freeCompilerArgs += ["-Xskip-prerelease-check"]
     }
@@ -72,6 +71,9 @@ dependencies {
     implementation Support.kotlin_stdlib_jdk8
 
     implementation Dependencies.recyclerview
+
+    implementation Dependencies.gang_tools
+    implementation Dependencies.android_common
 
     // Glide
     implementation Dependencies.glide

@@ -3,4 +3,3 @@
     <!--    使用明文通信 android:usesCleartextTraffic="true"   -->
     <base-config cleartextTrafficPermitted="true" />
 </network-security-config>
-

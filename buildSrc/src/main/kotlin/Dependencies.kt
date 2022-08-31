@@ -18,15 +18,15 @@ object App {
  * Android
  */
 object Android {
-    const val kotlin = "1.6.10"
+    const val kotlin = "1.7.10"
     const val gradle = "7.0.3"
-    const val compileSdkVersion = 31
+    const val compileSdkVersion = 32
     const val minSdkVersion = 26
-    const val targetSdkVersion = 31
+    const val targetSdkVersion = 32
     const val versionCode = 1
     const val versionName = "1.0"
 
-    const val coil = "1.4.0"
+    const val coil = "2.2.0"
     const val glide = "4.11.0"
 }
 
@@ -40,7 +40,7 @@ object Support {
     const val espresso_core = "androidx.test.espresso:espresso-core:3.3.0"
 
     const val constraintlayout = "androidx.constraintlayout:constraintlayout:2.0.4"
-    const val appcompat = "androidx.appcompat:appcompat:1.3.0"
+    const val appcompat = "androidx.appcompat:appcompat:1.5.0"
     const val kotlin_stdlib_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Android.kotlin}"
 
     const val build_gradle = "com.android.tools.build:gradle:${Android.gradle}"
@@ -54,13 +54,13 @@ object Dependencies {
 
 
     const val androidx_multidex = "androidx.multidex:multidex:2.0.1" // Dex处理
-    const val cardview = "androidx.cardview:cardview:1.0.0@aar"
-    const val android_common = "com.github.R-Gang:Android-Common:v0.1.6-beta.4@aar"
+    const val gang_tools = "com.github.R-Gang:Tools-Utils:v1.0.1-beta"
+    const val android_common = "com.github.R-Gang:Android-Common:v0.1.6-beta.10@aar"
     // 常用类封装(以上为基本类关联依赖)
 
 
     // recyclerview
-    const val recyclerview = "androidx.recyclerview:recyclerview:1.2.0@aar"
+    const val recyclerview = "androidx.recyclerview:recyclerview:1.2.1@aar"
 
     // arouter
     const val arouter_register = "com.alibaba:arouter-register:1.0.2"

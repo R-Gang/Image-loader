@@ -21,14 +21,17 @@ import com.bumptech.glide.request.transition.ViewPropertyTransition
  */
 object GlideUtils {
 
-    // Property Animation 属性动画
-    var animationObject =
-        ViewPropertyTransition.Animator { view: View ->
-            view.alpha = 0f
-            val fadeAnim = ObjectAnimator.ofFloat(view, "alpha", 0f, 1f)
-            fadeAnim.duration = 233
-            fadeAnim.start()
-        }
+    // Glide Property Animation 属性动画
+    fun animationObj(): ViewPropertyTransition.Animator {
+        val animationObject =
+            ViewPropertyTransition.Animator { view: View ->
+                view.alpha = 0f
+                val fadeAnim = ObjectAnimator.ofFloat(view, "alpha", 0f, 1f)
+                fadeAnim.duration = 233
+                fadeAnim.start()
+            }
+        return animationObject
+    }
 
     // Glide 配置
     @SuppressLint("CheckResult")
@@ -81,20 +84,16 @@ object GlideUtils {
         url: String?,
         defaultImage: Int,
         imageView: ImageView,
-        callBitmap: CallBitmap,
+        callBitmap: ((resource: Bitmap?) -> Unit),
     ) { //  获取Bitmap
         Glide.with(context).asBitmap().load(url)
             .apply(getPhotoImageOption(context, defaultImage))
             .into(object : BitmapImageViewTarget(imageView) {
                 override fun setResource(resource: Bitmap?) {
                     super.setResource(resource)
-                    callBitmap.bitmapRes(resource)
+                    callBitmap.invoke(resource)
                 }
             })
-    }
-
-    interface CallBitmap {
-        fun bitmapRes(resource: Bitmap?)
     }
 
     // 圓角

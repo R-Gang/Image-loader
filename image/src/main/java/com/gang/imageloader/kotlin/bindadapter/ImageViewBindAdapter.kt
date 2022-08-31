@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewOutlineProvider
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
-import com.kotlin.android.ktx.ext.dimension.dp
-import com.kotlin.android.ktx.ext.dimension.dpF
 import com.gang.imageloader.kotlin.coil.loadImage
+import com.gang.tools.kotlin.dimension.dp
+import com.gang.tools.kotlin.dimension.dpF
 
 /**
  * 创建者: hrg

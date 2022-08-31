@@ -1,4 +1,4 @@
-package com.image.kotlin.base
+package com.image.kotlin.utils
 
 /**
  *

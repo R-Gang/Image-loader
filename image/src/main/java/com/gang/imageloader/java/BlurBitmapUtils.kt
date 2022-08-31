@@ -16,16 +16,16 @@ object BlurBitmapUtils {
     /**
      * 建议模糊度(在0.0到25.0之间)
      */
-    private const val BLUR_RADIUS = 20
+    private const val BLUR_RADIUS = 20f
     private const val SCALED_WIDTH = 100
     private const val SCALED_HEIGHT = 100
 
     @JvmOverloads
-    fun blur(imageView: ImageView, bitmap: Bitmap?, radius: Int = BLUR_RADIUS) {
+    fun blur(imageView: ImageView, bitmap: Bitmap, radius: Float = BLUR_RADIUS) {
         imageView.setImageBitmap(getBlurBitmap(imageView.context, bitmap, radius))
     }
 
-    fun getBlurBitmap(context: Context?, bitmap: Bitmap?): Bitmap {
+    fun getBlurBitmap(context: Context, bitmap: Bitmap): Bitmap {
         return getBlurBitmap(context, bitmap, BLUR_RADIUS)
     }
 
@@ -38,9 +38,9 @@ object BlurBitmapUtils {
      * @param radius
      * @return
      */
-    fun getBlurBitmap(context: Context?, bitmap: Bitmap?, radius: Int): Bitmap {
+    fun getBlurBitmap(context: Context, bitmap: Bitmap, radius: Float): Bitmap {
         // 将缩小后的图片做为预渲染的图片。
-        val inputBitmap = Bitmap.createScaledBitmap(bitmap!!, SCALED_WIDTH, SCALED_HEIGHT, false)
+        val inputBitmap = Bitmap.createScaledBitmap(bitmap, SCALED_WIDTH, SCALED_HEIGHT, false)
         // 创建一张渲染后的输出图片。
         val outputBitmap = Bitmap.createBitmap(inputBitmap)
 

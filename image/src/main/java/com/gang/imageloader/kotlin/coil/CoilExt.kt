@@ -9,14 +9,12 @@ import coil.ImageLoader
 import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import coil.decode.SvgDecoder
-import coil.fetch.VideoFrameFileFetcher
-import coil.fetch.VideoFrameUriFetcher
+import coil.decode.VideoFrameDecoder
 import coil.request.Disposable
 import coil.request.ImageRequest
 import coil.request.repeatCount
 import coil.request.videoFrameMillis
 import coil.target.ImageViewTarget
-import coil.transform.BlurTransformation
 import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
 import coil.transform.Transformation
@@ -24,6 +22,7 @@ import com.gang.imageloader.R
 import com.gang.imageloader.initImage
 import com.gang.imageloader.kotlin.ImageCallback
 import com.gang.imageloader.kotlin.getProxyUrl
+import com.gang.imageloader.kotlin.transform.BlurTransformation
 
 /**
  * 创建者: hrg
@@ -51,7 +50,7 @@ fun ImageView.loadImage(
     data: Any?,
     width: Int = 0,
     height: Int = 0,
-    useProxy: Boolean = true,
+    useProxy: Boolean = false,
     isLoadSvg: Boolean = false,
     isLoadVideo: Boolean = false,
     defaultImg: Drawable? = null,
@@ -62,16 +61,17 @@ fun ImageView.loadImage(
     circleCrop: Boolean = false,
     roundedRadius: Float = 0f, //圆角半径，此值为0时，可以指定单独某个角的值
     direction: Int = Direction.ALL,
-//    roundedRadiusTopLeft: Float = 0f,
-//    roundedRadiusTopRight: Float = 0f,
-//    roundedRadiusBottomLeft: Float = 0f,
-//    roundedRadiusBottomRight: Float = 0f,
+    roundedRadiusTopLeft: Float = 0f,
+    roundedRadiusTopRight: Float = 0f,
+    roundedRadiusBottomLeft: Float = 0f,
+    roundedRadiusBottomRight: Float = 0f,
     blurRadius: Float = 0f,
     blurSampling: Float = 0f,
     callback: ImageCallback? = null,
     onStart: ((placeholder: Drawable?) -> Unit)? = null,
     onError: ((error: Drawable?) -> Unit)? = null,
     onSuccess: ((result: Drawable) -> Unit)? = null,
+    onUseProxy: ((width: Int, height: Int) -> Unit)? = null,
 ) {
     loadImage(
         data = data,
@@ -88,17 +88,18 @@ fun ImageView.loadImage(
         circleCrop = circleCrop,
         roundedRadius = roundedRadius,
         direction = direction,
-//        roundedRadiusTopLeft = roundedRadiusTopLeft,
-//        roundedRadiusTopRight = roundedRadiusTopRight,
-//        roundedRadiusBottomLeft = roundedRadiusBottomLeft,
-//        roundedRadiusBottomRight = roundedRadiusBottomRight,
+        roundedRadiusTopLeft = roundedRadiusTopLeft,
+        roundedRadiusTopRight = roundedRadiusTopRight,
+        roundedRadiusBottomLeft = roundedRadiusBottomLeft,
+        roundedRadiusBottomRight = roundedRadiusBottomRight,
         blurRadius = blurRadius,
         blurSampling = blurSampling,
         imageView = this,
         callback = callback,
         onStart = onStart,
         onError = onError,
-        onSuccess = onSuccess
+        onSuccess = onSuccess,
+        onUseProxy = onUseProxy,
     )
 }
 
@@ -111,7 +112,7 @@ fun loadImage(
     data: Any?,
     width: Int = 0,
     height: Int = 0,
-    useProxy: Boolean = true,
+    useProxy: Boolean = false,
     isLoadSvg: Boolean = false,
     isLoadVideo: Boolean = false,
     defaultImg: Drawable? = null,
@@ -122,10 +123,10 @@ fun loadImage(
     circleCrop: Boolean = false,
     roundedRadius: Float = 0F, //圆角半径，此值为0时，可以指定单独某个角的值
     direction: Int = Direction.ALL,
-//    roundedRadiusTopLeft: Float = 0f,
-//    roundedRadiusTopRight: Float = 0f,
-//    roundedRadiusBottomLeft: Float = 0f,
-//    roundedRadiusBottomRight: Float = 0f,
+    roundedRadiusTopLeft: Float = 0f,
+    roundedRadiusTopRight: Float = 0f,
+    roundedRadiusBottomLeft: Float = 0f,
+    roundedRadiusBottomRight: Float = 0f,
     blurRadius: Float = 0f,
     blurSampling: Float = 0f,
     imageView: ImageView? = null,
@@ -133,6 +134,7 @@ fun loadImage(
     onStart: ((placeholder: Drawable?) -> Unit)? = null,
     onError: ((error: Drawable?) -> Unit)? = null,
     onSuccess: ((result: Drawable) -> Unit)? = null,
+    onUseProxy: ((width: Int, height: Int) -> Unit)? = null,
 ) {
     loadIAny(
         data = if (data is String) {
@@ -140,7 +142,8 @@ fun loadImage(
                 imgUrl = data,
                 width = width,
                 height = height,
-                useProxy = useProxy
+                useProxy = useProxy,
+                callback = onUseProxy,
             )
         } else {
             data
@@ -223,19 +226,19 @@ fun loadImage(
                     )
                 )
             }
-//        } else if ((roundedRadiusTopLeft
-//                    + roundedRadiusTopRight
-//                    + roundedRadiusBottomLeft
-//                    + roundedRadiusBottomRight) > 0f
-//        ) {
-//            transformations.add(
-//                RoundedCornersTransformation(
-//                    topLeft = roundedRadiusTopLeft,
-//                    topRight = roundedRadiusTopRight,
-//                    bottomLeft = roundedRadiusBottomLeft,
-//                    bottomRight = roundedRadiusBottomRight
-//                )
-//            )
+        } else if ((roundedRadiusTopLeft
+                    + roundedRadiusTopRight
+                    + roundedRadiusBottomLeft
+                    + roundedRadiusBottomRight) > 0f
+        ) {
+            transformations.add(
+                RoundedCornersTransformation(
+                    topLeft = roundedRadiusTopLeft,
+                    topRight = roundedRadiusTopRight,
+                    bottomLeft = roundedRadiusBottomLeft,
+                    bottomRight = roundedRadiusBottomRight
+                )
+            )
         }
         // 转换-模糊
         if (blurRadius > 0f && blurSampling > 0f) {
@@ -309,25 +312,24 @@ private fun loadIAny(
  * 设置ImageLoader，用于加载Gif
  */
 private val gifImageLoader = ImageLoader.Builder(initImage.imgContext as Context)
-    .componentRegistry {
-//        add(MyGifDecoder())
+    .components {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            add(ImageDecoderDecoder(context = initImage.imgContext as Context)) // add(MyGifDecoder())
+            add(ImageDecoderDecoder.Factory())
         } else {
-            add(GifDecoder())
+            add(GifDecoder.Factory())
         }
     }
     .build()
 
 private val svgImageLoader = ImageLoader.Builder(initImage.imgContext as Context)
-    .componentRegistry {
-        add(SvgDecoder(initImage.imgContext as Context))
+    .components {
+        add(SvgDecoder.Factory())
     }
     .build()
 
 private val videoLoader = ImageLoader.Builder(initImage.imgContext as Context)
-    .componentRegistry {
-        add(VideoFrameFileFetcher(initImage.imgContext as Context))
-        add(VideoFrameUriFetcher(initImage.imgContext as Context))
+    .components {
+        add(VideoFrameDecoder.Factory())
     }
     .build()
+

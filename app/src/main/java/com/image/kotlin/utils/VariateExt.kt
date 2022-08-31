@@ -1,4 +1,4 @@
-package com.gang.imageloader.kotlin
+package com.image.kotlin.utils
 
 /**
  * 创建者: hrg

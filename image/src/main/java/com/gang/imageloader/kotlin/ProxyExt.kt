@@ -4,7 +4,7 @@ import com.gang.imageloader.BuildConfig
 
 
 /**
- *创建者: hrg
+ * 创建者: hrg
  * 创建时间: 2020/8/10 2:29 PM
  * 描述:拼接图片代理地址
  */
@@ -17,7 +17,10 @@ import com.gang.imageloader.BuildConfig
  * @param useProxy
  * @return
  */
-fun getProxyUrl(imgUrl: String?, width: Int, height: Int, useProxy: Boolean): String {
+fun getProxyUrl(
+    imgUrl: String?, width: Int, height: Int, useProxy: Boolean,
+    callback: ((width: Int, height: Int) -> Unit)? = null,
+): String {
     if (imgUrl.isNullOrEmpty()) {
         return ""
     }
@@ -34,13 +37,12 @@ fun getProxyUrl(imgUrl: String?, width: Int, height: Int, useProxy: Boolean): St
             return imgUrl
         }
     }
-
-    val url = if (imgUrl.contains("aliyuncs.com")) {
+    callback?.invoke(width, height)
+    /*val url = if (imgUrl.contains("aliyuncs.com")) {
         // 具体参数参见：https://help.aliyun.com/document_detail/44705.html
         "$imgUrl?x-oss-process=image/resize,m_fill,w_$width,h_$height/auto-orient,1"
     } else {
         "${VariateExt.imgProxyUrl}$imgUrl&width=$width&height=$height&clipType=4"
-    }
-//   ("$url").e()
-    return url
+    }*/
+    return imgUrl
 }
